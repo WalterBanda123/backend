@@ -5,19 +5,19 @@
 
     {
         
-        name:"Walter Banda",
+        fullName:"Walter Banda",
         email:"walterbanda@gmail.com",
         password:"walter"
     },  
     {
         
-        name:"Anesu Chishe",
+        fullName:"Anesu Chishe",
         email:"anesuchishe@gmail.com",
         password:"anesu"
     },  
     {
         
-        name:"Anold Zenge",
+        fullName:"Anold Zenge",
         email:"anoldzenge@gmail.com",
         password:"anold"
     },

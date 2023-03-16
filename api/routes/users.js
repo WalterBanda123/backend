@@ -1,7 +1,7 @@
 const express = require("express");
 const bycript = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const checkAuth = require('../middleware/auth')
+const checkAuth = require("../middleware/auth");
 
 // const users = require("../models/usersMock");
 const User = require("../models/UserSchema");
@@ -30,7 +30,7 @@ router.get("/:userID", checkAuth, async (req, res) => {
 //---GETTING ALL USERS ----
 router.get("/", async (req, res) => {
   try {
-    //User.insertMany(users);
+    // User.insertMany(users);
     const userList = await User.find();
     res.status(201).json({
       allUsers: userList,
@@ -107,12 +107,13 @@ router.post("/login", async (req, res) => {
         },
         process.env.ENV_SECRET_KEY,
         {
-          expiresIn:"1h"
+          expiresIn: "1h",
         }
       );
       return res.status(200).json({
-        message: "Auth was successful",
-        token:token
+        // message: "Auth was successful",
+        _id: user[0]._id,
+        token: token,
       });
     }
 
