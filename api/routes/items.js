@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 });
 
 //---ROUTE TO BID ON AN ITEM/ SETTING NEW BIT PRICE
-router.patch("/:itemID", checkAuth, async (req, res) => {
+router.patch("/:itemID", async (req, res) => {
   try {
     const id = req.params.itemID;
     const newBid = Number(req.body.newBid);
