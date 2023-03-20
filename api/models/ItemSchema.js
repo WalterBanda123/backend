@@ -6,8 +6,11 @@ const itemSchema = mongoose.Schema({
   startBid: Number,
   bidTIme: Date,
   image: String,
-  description:String
+  description: String,
+  category:String
 });
+
+
 
 module.exports = mongoose.model("Item", itemSchema);
 
