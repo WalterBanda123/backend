@@ -44,29 +44,33 @@ router.patch("/:itemID", async (req, res) => {
   try {
     const id = req.params.itemID;
     const newBid = Number(req.body.newBid);
-    const category = req.body.category;
-    const updateImage = req.body.category;
+    // const category = req.body.category;
+    // const updateImage = req.body.category;
+    const bidTime = req.body.bidTime;
     const fetchedItem = await Item.findById(id);
 
     // console.log(fetchedItem.startBid, newBid);
+    // if (fetchedItem.startBid > newBid) {
+    //   return res.status(300).json({
+    //     message: `new bid value of ${newBid} is less than the start bid price of ${fetchedItem.startBid},new bid price should be higher than the startbid price`,
+    //   });
+    // }
 
-    if (fetchedItem.startBid > newBid) {
-      return res.status(300).json({
-        message: `new bid value of ${newBid} is less than the start bid price of ${fetchedItem.startBid},new bid price should be higher than the startbid price`,
-      });
-    }
+    
 
-    const updatedItem = await Item.updateOne(
+    const updatedItem = await Item.updateMany(
       { _id: id },
       {
         $set: {
-          image: updateImage,
+          // image: updateImage,
           startBid: newBid,
-          category: category,
+          bidTime:bidTime
+          // category: category,
         },
       }
     );
 
+    console.log(updatedItem);
     res.status(201).json({
       message: `New bid price is ${newBid}`,
       item: updatedItem,
@@ -96,29 +100,29 @@ router.get("/:itemID", async (req, res) => {
 
 
 // UPDATING CATEGORIES FOR THE ITEMS IN STOCK
-router.patch('/:itemId', async (req, res) => {
-  try {
-    const id = req.params.itemId;
-    // const item = await Item.findById(id);
+// router.patch('/:itemId', async (req, res) => {
+//   try {
+//     const id = req.params.itemId;
+//     // const item = await Item.findById(id);
 
-    const category = req.body.category;
+//     const category = req.body.category;
     
-    const updatedItem = await Item.updateMany(
-      { _id: id },
-      { $set: { category: category } }
-    );
+//     const updatedItem = await Item.updateMany(
+//       { _id: id },
+//       { $set: { category: category } }
+//     );
 
-    res.status(201).json({
-      message: `New category is ${category}`,
-      item: updatedItem,
-    });
+//     res.status(201).json({
+//       message: `New category is ${category}`,
+//       item: updatedItem,
+//     });
 
-  } catch (error) {
-     res.status(500).json({
-       errorMessage: error,
+//   } catch (error) {
+//      res.status(500).json({
+//        errorMessage: error,
        
-     });
-  }
-})
+//      });
+//   }
+// })
 
 module.exports = router;
