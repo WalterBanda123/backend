@@ -3,7 +3,7 @@ const bycript = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const checkAuth = require("../middleware/auth");
 
-// const users = require("../models/usersMock");
+const users = require("../models/usersMock");
 const User = require("../models/UserSchema");
 
 const { default: mongoose } = require("mongoose");
@@ -64,6 +64,7 @@ router.post("/signup", async (req, res) => {
             fullName: req.body.fullName,
             email: req.body.email,
             password: hash,
+            role:req.body.role,
           });
           newUser.save();
 

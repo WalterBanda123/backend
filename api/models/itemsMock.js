@@ -5,6 +5,7 @@ const ITEMS = [
     startBid: "300.00",
     timeLeft: "12hrs:30mins:45sec",
     image: "../assets/table.jpg",
+    category:"furniture",
     description: `There are many variations of passages of Lorem Ipsum available, 
       but the majority have suffered alteration in some form,
        by injected humour, or randomised words which don't look 

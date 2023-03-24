@@ -1,19 +1,57 @@
 const express = require("express");
-//  const items = require("../models/itemsMock");
+
 const data = require("../data/cards");
 
-
 const Item = require("../models/ItemSchema");
-
-const checkAuth = require("../middleware/auth");
+const mongoose = require("mongoose");
 
 const router = express.Router();
 
+//---ADDING A NEW ITEM---
+router.post('/', async(req, res)=>{
 
+  try {
+    const newItem = new Item({
+      _id: new mongoose.Types.ObjectId(),
+      name:req.body.name,
+      startBid:req.body.startBid,
+      bidTime:req.body.bidTime,
+      image:req.body.image,
+      description:req.body.description,
+      category:req.body.category
+    })
+
+    newItem.save()
+    res.status(200).json({
+      message:"item created successfully",
+      itemCreated:newItem
+    })
+  } catch (error) {
+
+    res.status(500).json({
+      errorMessage:error
+    })
+    
+  }
+})
+
+// router.post("/", async (req, res) => {
+//   try {
+
+    
+//     await Item.insertMany(data);
+//     res.status(200).json({
+//       message: "the items are inserted",
+//       items: data,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: error,
+//     });
+//   }
+// });
 
 router.get("/", async (req, res) => {
-
-
   //  Item.insertMany({
   //     name: "Clay pot",
   //     startBid: 245,
@@ -25,8 +63,6 @@ router.get("/", async (req, res) => {
   //   });
 
   try {
- 
-   
     const fetchedItemList = await Item.find();
     res.status(201).json({
       message: "fetched successfully",
@@ -56,15 +92,13 @@ router.patch("/:itemID", async (req, res) => {
     //   });
     // }
 
-    
-
     const updatedItem = await Item.updateMany(
       { _id: id },
       {
         $set: {
           // image: updateImage,
           startBid: newBid,
-          bidTime:bidTime
+          bidTime: bidTime,
           // category: category,
         },
       }
@@ -98,6 +132,24 @@ router.get("/:itemID", async (req, res) => {
   }
 });
 
+//DELETING AN ITEM FROM THE DATABASE----
+
+router.delete("/:itemId", async (req, res) => {
+  try {
+    const id = req.params.itemId;
+    await Item.findByIdAndDelete(id);
+    const newList = Item.find()
+
+    res.status(200).json({
+      message: "Successfully deleted item",
+      newList:newList,
+    });
+  } catch (error) {
+    res.status(500).json({
+      errorMessage: error,
+    });
+  }
+});
 
 // UPDATING CATEGORIES FOR THE ITEMS IN STOCK
 // router.patch('/:itemId', async (req, res) => {
@@ -106,7 +158,7 @@ router.get("/:itemID", async (req, res) => {
 //     // const item = await Item.findById(id);
 
 //     const category = req.body.category;
-    
+
 //     const updatedItem = await Item.updateMany(
 //       { _id: id },
 //       { $set: { category: category } }
@@ -120,7 +172,7 @@ router.get("/:itemID", async (req, res) => {
 //   } catch (error) {
 //      res.status(500).json({
 //        errorMessage: error,
-       
+
 //      });
 //   }
 // })

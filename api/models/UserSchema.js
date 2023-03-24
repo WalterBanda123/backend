@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema({
     match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
   },
   password: String,
+  role:String
 });
 
 module.exports = mongoose.model("User", userSchema);

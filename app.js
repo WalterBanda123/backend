@@ -4,7 +4,7 @@ const userRoutes = require("./api/routes/users");
 const bodyParser = require("body-parser");
 const itemRoutes = require("./api/routes/items");
 const mongoose = require("mongoose");
-const cors = require('cors')
+const cors = require('cors');
 
 mongoose.connect("mongodb://127.0.0.1:27017/bidsite");
 
