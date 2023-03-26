@@ -8,37 +8,32 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 //---ADDING A NEW ITEM---
-router.post('/', async(req, res)=>{
-
+router.post("/", async (req, res) => {
   try {
     const newItem = new Item({
       _id: new mongoose.Types.ObjectId(),
-      name:req.body.name,
-      startBid:req.body.startBid,
-      bidTime:req.body.bidTime,
-      image:req.body.image,
-      description:req.body.description,
-      category:req.body.category
-    })
+      name: req.body.name,
+      startBid: req.body.startBid,
+      bidTime: req.body.bidTime,
+      image: req.body.image,
+      description: req.body.description,
+      category: req.body.category,
+    });
 
-    newItem.save()
+    newItem.save();
     res.status(200).json({
-      message:"item created successfully",
-      itemCreated:newItem
-    })
+      message: "item created successfully",
+      itemCreated: newItem,
+    });
   } catch (error) {
-
     res.status(500).json({
-      errorMessage:error
-    })
-    
+      errorMessage: error,
+    });
   }
-})
+});
 
-// router.post("/", async (req, res) => {
+// router.post("/isertmany", async (req, res) => {
 //   try {
-
-    
 //     await Item.insertMany(data);
 //     res.status(200).json({
 //       message: "the items are inserted",
@@ -138,11 +133,11 @@ router.delete("/:itemId", async (req, res) => {
   try {
     const id = req.params.itemId;
     await Item.findByIdAndDelete(id);
-    const newList = Item.find()
+    const newList = Item.find();
 
     res.status(200).json({
       message: "Successfully deleted item",
-      newList:newList,
+      newList: newList,
     });
   } catch (error) {
     res.status(500).json({
