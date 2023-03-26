@@ -32,19 +32,19 @@ router.post("/", async (req, res) => {
   }
 });
 
-// router.post("/isertmany", async (req, res) => {
-//   try {
-//     await Item.insertMany(data);
-//     res.status(200).json({
-//       message: "the items are inserted",
-//       items: data,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: error,
-//     });
-//   }
-// });
+router.post("/insertmany", async (req, res) => {
+  try {
+    await Item.insertMany(data);
+    res.status(200).json({
+      message: "the items are inserted",
+      items: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error,
+    });
+  }
+});
 
 router.get("/", async (req, res) => {
   //  Item.insertMany({
@@ -70,6 +70,30 @@ router.get("/", async (req, res) => {
   }
 });
 
+//---CODE FOR UPDATING BID PRICE----
+router.patch("/setBid/:itemId", async (req, res) => {
+  try {
+    const id = req.params.itemId;
+    const newBid = Number(req.body.newBid);
+
+    const fetchedItem = await Item.findById(id);
+
+    const updatedItem = await Item.updateOne(
+      { _id: id },
+      { $set: { startBid: newBid } }
+    );
+    res.status(201).json({
+      message: `New bid price is ${newBid}`,
+      item: updatedItem,
+      fetchedItem: fetchedItem,
+    });
+  } catch (error) {
+    res.status(500).json({
+      errorMessage: error,
+      text: "could not update bid price",
+    });
+  }
+})
 //---ROUTE TO BID ON AN ITEM/ SETTING NEW BIT PRICE
 router.patch("/:itemID", async (req, res) => {
   try {
