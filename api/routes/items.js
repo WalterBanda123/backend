@@ -80,7 +80,7 @@ router.patch("/:itemID", async (req, res) => {
   try {
     const id = req.params.itemID;
     const newBid = Number(req.body.newBid);
-    // const category = req.body.category;
+    const category = req.body.category;
     // const updateImage = req.body.category;
     const bidTime = req.body.bidTime;
     const fetchedItem = await Item.findById(id);
@@ -99,7 +99,7 @@ router.patch("/:itemID", async (req, res) => {
           // image: updateImage,
           startBid: newBid,
           bidTime: bidTime,
-          // category: category,
+          category: category,
         },
       }
     );
