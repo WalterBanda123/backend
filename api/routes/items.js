@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
     const newItem = new Item({
       _id: new mongoose.Types.ObjectId(),
       name: req.body.name,
-      startBid: req.body.startBid,
+      startBid: Number(req.body.startBid),
       bidTime: req.body.bidTime,
       image: image.download_url,
       description: req.body.description,
@@ -94,7 +94,6 @@ router.patch("/setBid/:itemId", async (req, res) => {
   try {
     const id = req.params.itemId;
     const newBid = Number(req.body.newBid);
-
     const fetchedItem = await Item.findById(id);
 
     const updatedItem = await Item.updateOne(
@@ -118,7 +117,9 @@ router.patch("/:itemID", async (req, res) => {
   try {
     const id = req.params.itemID;
     const newBid = Number(req.body.newBid);
+    const name = req.body.name;
     const category = req.body.category;
+    const description = req.body.description;
     // const updateImage = req.body.category;
     const bidTime = req.body.bidTime;
     const fetchedItem = await Item.findById(id);
@@ -138,6 +139,8 @@ router.patch("/:itemID", async (req, res) => {
           startBid: newBid,
           bidTime: bidTime,
           category: category,
+          name: name,
+          description: description,
         },
       }
     );

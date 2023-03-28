@@ -4,7 +4,7 @@ const itemSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   name: String,
   startBid: Number,
-  bidTIme: String,
+  bidTime: String,
   image: String,
   description: String,
   category:String
