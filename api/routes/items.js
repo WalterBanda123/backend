@@ -1,21 +1,40 @@
 const express = require("express");
 
 const data = require("../data/cards");
-
 const Item = require("../models/ItemSchema");
 const mongoose = require("mongoose");
 
 const router = express.Router();
+const { Picsum } = require("picsum-photos");
+
+// const multer = require("multer");
+// const storage = multer.diskStorage({
+//   destination: "uploads"
+//    //function (req, file, cb) {
+//   //   cb(null, "uploads/");
+//   // },
+//   ,filename: function (req, file, cb) {
+//     cb(null, new Date().toISOString() + path.extname(file.originalname));
+//   },
+// });
+// const upLoad = multer({
+//   storage: storage,
+//   limits: {
+//     fileSize: 1024 * 1024 * 5,
+//   },
+// });
 
 //---ADDING A NEW ITEM---
 router.post("/", async (req, res) => {
   try {
+    const image = await Picsum.random();
+    console.log(image);
     const newItem = new Item({
       _id: new mongoose.Types.ObjectId(),
       name: req.body.name,
       startBid: req.body.startBid,
       bidTime: req.body.bidTime,
-      image: req.body.image,
+      image: image.download_url,
       description: req.body.description,
       category: req.body.category,
     });
@@ -93,7 +112,7 @@ router.patch("/setBid/:itemId", async (req, res) => {
       text: "could not update bid price",
     });
   }
-})
+});
 //---ROUTE TO BID ON AN ITEM/ SETTING NEW BIT PRICE
 router.patch("/:itemID", async (req, res) => {
   try {
@@ -139,6 +158,9 @@ router.patch("/:itemID", async (req, res) => {
 
 //--GETTING ITEM BY ID----
 router.get("/:itemID", async (req, res) => {
+  const image = await Picsum.random();
+  console.log(image);
+
   try {
     const id = req.params.itemID;
     const itemSelected = await Item.findById(id);
