@@ -65,16 +65,9 @@ router.post("/insertmany", async (req, res) => {
   }
 });
 
+
+
 router.get("/", async (req, res) => {
-  //  Item.insertMany({
-  //     name: "Clay pot",
-  //     startBid: 245,
-  //     bidTime: "",
-  //     image: "../assets/pots.jpg",
-  //     description:
-  //       "Clay pots (hari) were chiefly used in food preparation. The life of the Shona individual could not be without pottery. Food consumption and existence go hand in hand. Figuratively, individuals could be taken as pots. Such was the importance of clay pots among the Shona. Expressions like “dzava hari dzofanzirofa (they are now old pots boiling to breaking point)” were used to describe the old people nearing the end of life",
-  //     category: "cutlery",
-  //   });
 
   try {
     const fetchedItemList = await Item.find();
@@ -88,6 +81,8 @@ router.get("/", async (req, res) => {
     });
   }
 });
+
+
 
 //---CODE FOR UPDATING BID PRICE----
 router.patch("/setBid/:itemId", async (req, res) => {
@@ -176,8 +171,8 @@ router.get("/:itemID", async (req, res) => {
   }
 });
 
-//DELETING AN ITEM FROM THE DATABASE----
 
+//----DELETING AN ITEM FROM THE DATABASE----
 router.delete("/:itemId", async (req, res) => {
   try {
     const id = req.params.itemId;
@@ -195,8 +190,8 @@ router.delete("/:itemId", async (req, res) => {
   }
 });
 
-// UPDATING CATEGORIES FOR THE ITEMS IN STOCK
-// router.patch('/:itemId', async (req, res) => {
+// ------BIDDING AN ITEM---
+// router.patch('/bid/:itemId', async (req, res) => {
 //   try {
 //     const id = req.params.itemId;
 //     // const item = await Item.findById(id);

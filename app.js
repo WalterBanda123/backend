@@ -1,6 +1,6 @@
 const express = require("express");
 const userRoutes = require("./api/routes/users");
-
+const autobidRoutes = require("./api/routes/autobidding")
 const bodyParser = require("body-parser");
 const itemRoutes = require("./api/routes/items");
 const mongoose = require("mongoose");
@@ -14,8 +14,10 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 
+mongoose.Promise = global.Promise;
 app.use("/users", userRoutes);
 app.use("/items", itemRoutes);
+app.use("/autobid", autobidRoutes)
 
 app.use((req, res) => {
   const error = new Error();
