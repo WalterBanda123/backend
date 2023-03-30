@@ -3,7 +3,6 @@ const bycript = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const checkAuth = require("../middleware/auth");
 
-const users = require("../models/usersMock");
 const User = require("../models/UserSchema");
 
 const { default: mongoose } = require("mongoose");
@@ -64,7 +63,9 @@ router.post("/signup", async (req, res) => {
             fullName: req.body.fullName,
             email: req.body.email,
             password: hash,
-            role:req.body.role,
+            role: req.body.role,
+            percentage:req.body.percentage,
+            amount:req.body.amount
           });
           newUser.save();
 
@@ -80,6 +81,31 @@ router.post("/signup", async (req, res) => {
       }
     });
   }
+});
+
+//--UPDATING AUTOBID BUDGET AND PERCENTAGE
+
+router.patch("/config/:userId", async (req, res) => {
+  try {
+    const id = req.params.userId;
+    const percentage = req.body.percentage;
+    const amount = req.body.amount;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          percentage: percentage,
+          amount: amount,
+        },
+      }
+    );
+
+    res.status(200).json({
+      message: "Successfully updated the user",
+      updatedUser: updatedUser,
+    });
+  } catch (error) {}
 });
 
 //---LOGGING USER ----

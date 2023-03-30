@@ -156,8 +156,7 @@ router.patch("/:itemID", async (req, res) => {
 
 //--GETTING ITEM BY ID----
 router.get("/:itemID", async (req, res) => {
-  const image = await Picsum.random();
-  console.log(image);
+ 
 
   try {
     const id = req.params.itemID;

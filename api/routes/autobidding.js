@@ -14,8 +14,8 @@ router.post("/", async (req, res) => {
     const newAutoBid = new AutoBid({
       _id: new mongoose.Types.ObjectId(),
       isActive: req.body.isActive,
-      percentage: req.body.percentage,
-      amount: req.body.amount,
+      // percentage: req.body.percentage,
+      // amount: req.body.amount,
       _itemId: req.body._itemId,
       _userId: req.body._userId,
     });
@@ -77,6 +77,26 @@ router.patch("/:bidId", async (req, res) => {
     res.status(200).json({
       message: "Successfully patched bid",
       updatedBid: updatedBid,
+    });
+  } catch (error) {
+    res.status(500).json({
+      errorMessage: error,
+    });
+  }
+});
+
+router.get("/exist", async (req, res) => {
+  try {
+    const itemId = req.body.itemId;
+    const userId = req.body.userId;
+
+    const resultList = await AutoBid.find().$where({
+      _itemId: itemId,
+      _userId: userId,
+    });
+    res.status(200).json({
+      message: "Successfully fetched items",
+      result: resultList,
     });
   } catch (error) {
     res.status(500).json({
