@@ -107,6 +107,29 @@ router.patch("/config/:userId", async (req, res) => {
     });
   } catch (error) {}
 });
+//---UPDATING THE AMOUNT WHEN AUTOBIDDING
+router.patch("/new-badget/:itemId", async (req, res) => {
+  try {
+    const id = req.params.userId;
+    // const percentage = req.body.percentage;
+    const amount = req.body.amount;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          // percentage: percentage,
+          amount: amount,
+        },
+      }
+    );
+
+    res.status(200).json({
+      message: "Successfully updated the user",
+      updatedUser: updatedUser,
+    });
+  } catch (error) {}
+});
 
 //---LOGGING USER ----
 

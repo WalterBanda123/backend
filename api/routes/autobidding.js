@@ -87,12 +87,10 @@ router.patch("/:bidId", async (req, res) => {
 
 router.get("/exist", async (req, res) => {
   try {
-    const itemId = req.body.itemId;
-    const userId = req.body.userId;
 
-    const resultList = await AutoBid.find().$where({
-      _itemId: itemId,
-      _userId: userId,
+    const resultList = await AutoBid.find({
+      _itemId: _itemId,
+      _userId: _userId,
     });
     res.status(200).json({
       message: "Successfully fetched items",
