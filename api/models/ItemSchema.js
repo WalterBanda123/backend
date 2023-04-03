@@ -7,7 +7,8 @@ const itemSchema = mongoose.Schema({
   bidTime: String,
   image: String,
   description: String,
-  category:String
+  category:String,
+  autoBid:[{type : mongoose.Schema.Types.ObjectId, ref:'AutoBid'}]
 });
 
 

@@ -64,8 +64,8 @@ router.post("/signup", async (req, res) => {
             email: req.body.email,
             password: hash,
             role: req.body.role,
-            percentage:req.body.percentage,
-            amount:req.body.amount
+            percentage: req.body.percentage,
+            amount: req.body.amount,
           });
           newUser.save();
 
@@ -105,30 +105,40 @@ router.patch("/config/:userId", async (req, res) => {
       message: "Successfully updated the user",
       updatedUser: updatedUser,
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(200).json({
+      errorMessage: error,
+    });
+  }
 });
 //---UPDATING THE AMOUNT WHEN AUTOBIDDING
-router.patch("/new-badget/:itemId", async (req, res) => {
+router.patch("/new-badget/:userId", async (req, res) => {
   try {
     const id = req.params.userId;
     // const percentage = req.body.percentage;
-    const amount = req.body.amount;
+    const newAmount = req.body.amount;
 
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedUser = await User.updateOne(
       { _id: id },
       {
         $set: {
           // percentage: percentage,
-          amount: amount,
+          amount: newAmount,
         },
       }
     );
 
+    const user = await User.findById(id);
     res.status(200).json({
       message: "Successfully updated the user",
-      updatedUser: updatedUser,
+      user: user,
+      status: updatedUser,
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(200).json({
+      message: error,
+    });
+  }
 });
 
 //---LOGGING USER ----

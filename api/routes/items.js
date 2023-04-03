@@ -37,6 +37,7 @@ router.post("/", async (req, res) => {
       image: image.download_url,
       description: req.body.description,
       category: req.body.category,
+      autoBid:req.body.autoBid
     });
 
     newItem.save();
@@ -65,12 +66,9 @@ router.post("/insertmany", async (req, res) => {
   }
 });
 
-
-
 router.get("/", async (req, res) => {
-
   try {
-    const fetchedItemList = await Item.find();
+    const fetchedItemList = await Item.find().populate('autoBid');
     res.status(201).json({
       message: "fetched successfully",
       items: fetchedItemList,
@@ -81,8 +79,6 @@ router.get("/", async (req, res) => {
     });
   }
 });
-
-
 
 //---CODE FOR UPDATING BID PRICE----
 router.patch("/setBid/:itemId", async (req, res) => {
@@ -156,8 +152,6 @@ router.patch("/:itemID", async (req, res) => {
 
 //--GETTING ITEM BY ID----
 router.get("/:itemID", async (req, res) => {
- 
-
   try {
     const id = req.params.itemID;
     const itemSelected = await Item.findById(id);
@@ -169,7 +163,6 @@ router.get("/:itemID", async (req, res) => {
     });
   }
 });
-
 
 //----DELETING AN ITEM FROM THE DATABASE----
 router.delete("/:itemId", async (req, res) => {
@@ -189,6 +182,27 @@ router.delete("/:itemId", async (req, res) => {
   }
 });
 
+router.post("/created-bid/:itemId", async (req, res) => {
+  try {
+    const id = req.params.itemId;
+    const _bidId = ObjectId(req.body._bidId) ;
+
+    const updatedItem = await Item.findByIdAndUpdate(
+      { _id: id },
+      { $push: { autoBid: _bidId } },
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: "Successfully updated item",
+      updatedItem: updatedItem,
+    });
+  } catch (error) {
+    res.status(500).json({
+      errorMessage: error,
+    });
+  }
+});
 // ------BIDDING AN ITEM---
 // router.patch('/bid/:itemId', async (req, res) => {
 //   try {

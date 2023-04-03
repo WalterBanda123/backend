@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const bidList = await AutoBid.find();
+    const bidList = await AutoBid.find().populate('_itemId _userId');
     res.status(200).json({
       message: "Sucessfully fetched bids",
       bidList: bidList,
